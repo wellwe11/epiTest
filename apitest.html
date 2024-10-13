@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <img src="#" />
+    <p></p>
+    <input type="text" />
+    <script>
+      const img = document.querySelector("img");
+      const input = document.querySelector("input");
+      const someText = document.querySelector("p");
+
+      img.style.width = "250px";
+      img.style.height = "200px";
+
+      const loadImage = (keyword) => {
+        let source = keyword || "hay_ball";
+
+        fetch(`placeholder`, { mode: "cors" })
+          .then(function (response) {
+            if (reponse.ok) {
+              return response.json();
+            }
+          })
+          .then(function (response) {
+            if (!response.data && response.data.length === 0) {
+              someText.textContent = "Invalid input :(";
+            } else {
+              img.src = response.data.images.original.url;
+              someText.textContent = "nice gif! :)";
+            }
+          })
+          .catch(function (error) {
+            console.log("invalid:", error);
+          });
+      };
+
+      // load val as img entered in input
+      const inputCheck = (val) => {
+        loadImage(val);
+      };
+
+      input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          inputCheck(input.value);
+        }
+      });
+
+      loadImage();
+    </script>
+  </body>
+</html>
